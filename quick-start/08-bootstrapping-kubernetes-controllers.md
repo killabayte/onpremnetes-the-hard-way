@@ -260,12 +260,12 @@ curl  https://192.168.5.30:6443/version -k
 ```
 {
   "major": "1",
-  "minor": "13",
+  "minor": "18",
   "gitVersion": "v1.18.0",
-  "gitCommit": "ddf47ac13c1a9483ea035a79cd7c10005ff21a6d",
+  "gitCommit": "9e991415386e4cf155a24b1da15becaa390438d8",
   "gitTreeState": "clean",
-  "buildDate": "2018-12-03T20:56:12Z",
-  "goVersion": "go1.11.2",
+  "buildDate": "2020-03-25T14:50:46Z",
+  "goVersion": "go1.13.8",
   "compiler": "gc",
   "platform": "linux/amd64"
 }
