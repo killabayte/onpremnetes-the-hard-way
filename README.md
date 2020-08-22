@@ -30,6 +30,6 @@ Onpremnetes The Hard Way guides you through bootstrapping a highly available Kub
 
 ## Labs
 
-* [Prerequisites](docs/01-prerequisites.md)
-* [Provisioning Compute Resources](docs/02-compute-resources.md)
-* [Installing the Client Tools](docs/03-client-tools.md)
+* [Prerequisites](quick-start/01-prerequisites.md)
+* [Provisioning Compute Resources](quick-start/02-compute-resources.md)
+* [Installing the Client Tools](quick-start/03-client-tools.md)
