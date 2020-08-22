@@ -43,4 +43,4 @@ Onpremnetes The Hard Way guides you through bootstrapping a highly available Kub
 * [Deploy Weave - Pod Networking Solution](quick-start/11-configure-pod-networking.md)
 * [Kube API Server to Kubelet Configuration](quick-start/12-kube-apiserver-to-kubelet.md)
 * [Deploying the DNS Cluster Add-on](quick-start/13-dns-addon.md)
-* [Smoke Test](docs/14-smoke-test.md)
+* [Smoke Test](quick-start/14-smoke-test.md)
