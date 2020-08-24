@@ -4,7 +4,7 @@ metadata:
   name: coredns
   namespace: kube-system
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
@@ -22,7 +22,7 @@ rules:
   - list
   - watch
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   annotations:
@@ -48,19 +48,22 @@ data:
   Corefile: |
     .:53 {
         errors
-        health
+        health {
+          lameduck 5s
+        }
+        ready
         kubernetes cluster.local in-addr.arpa ip6.arpa {
-          pods insecure
-          upstream
           fallthrough in-addr.arpa ip6.arpa
         }
         prometheus :9153
-        proxy . /etc/resolv.conf
+        forward . UPSTREAMNAMESERVER {
+          max_concurrent 1000
+        }
         cache 30
         loop
         reload
         loadbalance
-    }
+    }STUBDOMAINS
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -71,7 +74,9 @@ metadata:
     k8s-app: kube-dns
     kubernetes.io/name: "CoreDNS"
 spec:
-  replicas: 2
+  # replicas: not specified here:
+  # 1. Default is 1.
+  # 2. Will be tuned in real time if DNS horizontal auto-scaling is turned on.
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -84,12 +89,24 @@ spec:
       labels:
         k8s-app: kube-dns
     spec:
+      priorityClassName: system-cluster-critical
       serviceAccountName: coredns
       tolerations:
-        - key: node-role.kubernetes.io/master
-          effect: NoSchedule
         - key: "CriticalAddonsOnly"
           operator: "Exists"
+      nodeSelector:
+        kubernetes.io/os: linux
+      affinity:
+         podAntiAffinity:
+           preferredDuringSchedulingIgnoredDuringExecution:
+           - weight: 100
+             podAffinityTerm:
+               labelSelector:
+                 matchExpressions:
+                   - key: k8s-app
+                     operator: In
+                     values: ["kube-dns"]
+               topologyKey: kubernetes.io/hostname
       containers:
       - name: coredns
         image: coredns/coredns:1.7.0
@@ -132,6 +149,11 @@ spec:
           timeoutSeconds: 5
           successThreshold: 1
           failureThreshold: 5
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8181
+            scheme: HTTP
       dnsPolicy: Default
       volumes:
         - name: config-volume
@@ -156,11 +178,14 @@ metadata:
 spec:
   selector:
     k8s-app: kube-dns
-  clusterIP: 10.96.0.10
+  clusterIP: CLUSTER_DNS_IP
   ports:
   - name: dns
     port: 53
     protocol: UDP
   - name: dns-tcp
     port: 53
+    protocol: TCP
+  - name: metrics
+    port: 9153
     protocol: TCP
