@@ -67,4 +67,4 @@ worker-2   NotReady    <none>   118s   v1.18.0
 
 Note: It is OK for the worker node to be in a `NotReady` state. Worker nodes will come into `Ready` state once networking is configured.
 
-Next: [Deploy Pod Networking](12-configure-pod-networking.md)
+Next: [Deploy Pod Networking](11-configure-pod-networking.md)
