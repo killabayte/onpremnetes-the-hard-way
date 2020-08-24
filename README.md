@@ -23,10 +23,10 @@ Onpremnetes The Hard Way guides you through bootstrapping a highly available Kub
 
 * [Kubernetes](https://github.com/kubernetes/kubernetes) 1.18.0
 * [Docker Container Runtime](https://github.com/containerd/containerd) 18.06
-* [CNI Container Networking](https://github.com/containernetworking/cni) 0.7.5
+* [CNI Container Networking](https://github.com/containernetworking/cni) 0.8.6
 * [Weave Networking](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/)
 * [etcd](https://github.com/coreos/etcd) v3.3.9
-* [CoreDNS](https://github.com/coredns/coredns) v1.2.2
+* [CoreDNS](https://github.com/coredns/coredns) v1.7.0
 
 ## Labs
 
