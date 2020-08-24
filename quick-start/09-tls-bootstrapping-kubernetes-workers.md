@@ -40,6 +40,7 @@ So let's get started!
 Copy the ca certificate to the worker node:
 
 ```
+scp ca.crt worker-1:~/
 scp ca.crt worker-2:~/
 ```
 
@@ -414,4 +415,4 @@ worker-2   NotReady   <none>   93s   v1.18.0
 ```
 Note: It is OK for the worker node to be in a NotReady state. That is because we haven't configured Networking yet.
 
-Next: [Configuring Kubectl](11-configuring-kubectl.md)
+Next: [Configuring Kubectl](10-configuring-kubectl.md)
