@@ -15,6 +15,8 @@ sudo mv sonobuoy /usr/local/bin
 sonobuoy run --wait
 ```
 
+> Note: This may take additional resources for your workers in my case it required 4Gb RAM and 2 CPU which I was added manually
+
 This could take about 1.5 to 2 hours. The number of tests run and passed will be displayed at the end.
 
 ## See results
@@ -34,5 +36,5 @@ sonobuoy results $results
 Deleting Sonobuoy entails removing its namespace as well as a few cluster scoped resources.
 
 ```
-sonobuoy delete --wait
+sonobuoy delete --all --wait
 ```
