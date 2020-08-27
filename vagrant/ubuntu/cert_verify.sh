@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-#set -x
 
 # Green & Red marking for Success and Failed messages
 SUCCESS='\033[0;32m'
@@ -69,26 +68,6 @@ SYSTEMD_KCM_FILE=/etc/systemd/system/kube-controller-manager.service
 # kube-scheduler systemd service
 SYSTEMD_KS_FILE=/etc/systemd/system/kube-scheduler.service
 
-### WORKER NODES ###
-
-# Worker-1 cert details
-WORKER_1_CERT=/var/lib/kubelet/worker-1.crt
-WORKER_1_KEY=/var/lib/kubelet/worker-1.key
-
-# Worker-1 kubeconfig location
-WORKER_1_KUBECONFIG=/var/lib/kubelet/kubeconfig
-
-# Worker-1 kubelet config location
-WORKER_1_KUBELET=/var/lib/kubelet/kubelet-config.yaml
-
-# Systemd worker-1 kubelet location
-SYSTEMD_WORKER_1_KUBELET=/etc/systemd/system/kubelet.service
-
-# kube-proxy worker-1 location
-WORKER_1_KP_KUBECONFIG=/var/lib/kube-proxy/kubeconfig
-SYSTEMD_WORKER_1_KP=/etc/systemd/system/kube-proxy.service
-
-
 # Function - Master node #
 
 check_cert_ca()
@@ -108,11 +87,11 @@ check_cert_ca()
                     then
                         printf "${SUCCESS}CA cert and key are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the CA certificate and keys
+                        printf "${FAILED}Exiting...Found mismtach in the CA certificate and keys"
                         exit 1
                 fi
             else
-                printf "${FAILED}ca.crt / ca.key is missing.
+                printf "${FAILED}ca.crt / ca.key is missing"
                 exit 1
     fi
 }
@@ -135,11 +114,11 @@ check_cert_admin()
                     then
                         printf "${SUCCESS}admin cert and key are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the admin certificate and keys
+                        printf "${FAILED}Exiting...Found mismtach in the admin certificate and keys"
                         exit 1
                 fi
             else
-                printf "${FAILED}admin.crt / admin.key is missing.
+                printf "${FAILED}admin.crt / admin.key is missing"
                 exit 1
     fi
 }
@@ -161,11 +140,11 @@ check_cert_kcm()
                     then
                         printf "${SUCCESS}kube-controller-manager cert and key are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the kube-controller-manager certificate and keys
+                        printf "${FAILED}Exiting...Found mismtach in the kube-controller-manager certificate and keys"
                         exit 1
                 fi
             else
-                printf "${FAILED}kube-controller-manager.crt / kube-controller-manager.key is missing.
+                printf "${FAILED}kube-controller-manager.crt / kube-controller-manager.key is missing"
                 exit 1
     fi
 }
@@ -187,11 +166,11 @@ check_cert_kp()
                     then
                         printf "${SUCCESS}kube-proxy cert and key are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the kube-proxy certificate and keys
+                        printf "${FAILED}Exiting...Found mismtach in the kube-proxy certificate and keys"
                         exit 1
                 fi
             else
-                printf "${FAILED}kube-proxy.crt / kube-proxy.key is missing.
+                printf "${FAILED}kube-proxy.crt / kube-proxy.key is missing"
                 exit 1
     fi
 }
@@ -213,11 +192,11 @@ check_cert_ks()
                     then
                         printf "${SUCCESS}kube-scheduler cert and key are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the kube-scheduler certificate and keys
+                        printf "${FAILED}Exiting...Found mismtach in the kube-scheduler certificate and keys"
                         exit 1
                 fi
             else
-                printf "${FAILED}kube-scheduler.crt / kube-scheduler.key is missing.
+                printf "${FAILED}kube-scheduler.crt / kube-scheduler.key is missing"
                 exit 1
     fi
 }
@@ -239,11 +218,11 @@ check_cert_api()
                     then
                         printf "${SUCCESS}kube-apiserver cert and key are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the kube-apiserver certificate and keys
+                        printf "${FAILED}Exiting...Found mismtach in the kube-apiserver certificate and keys"
                         exit 1
                 fi
             else
-                printf "${FAILED}kube-apiserver.crt / kube-apiserver.key is missing.
+                printf "${FAILED}kube-apiserver.crt / kube-apiserver.key is missing"
                 exit 1
     fi
 }
@@ -265,11 +244,11 @@ check_cert_etcd()
                     then
                         printf "${SUCCESS}etcd-server.crt / etcd-server.key are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the ETCD certificate and keys
+                        printf "${FAILED}Exiting...Found mismtach in the ETCD certificate and keys"
                         exit 1
                 fi
             else
-                printf "${FAILED}etcd-server.crt / etcd-server.key is missing.
+                printf "${FAILED}etcd-server.crt / etcd-server.key is missing"
                 exit 1
     fi
 }
@@ -291,11 +270,11 @@ check_cert_sa()
                     then
                         printf "${SUCCESS}Service Account cert and key are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the Service Account certificate and keys
+                        printf "${FAILED}Exiting...Found mismtach in the Service Account certificate and keys"
                         exit 1
                 fi
             else
-                printf "${FAILED}service-account.crt / service-account.key is missing.
+                printf "${FAILED}service-account.crt / service-account.key is missing"
                 exit 1
     fi
 }
@@ -319,11 +298,11 @@ check_cert_kpkubeconfig()
                     then
                         printf "${SUCCESS}kube-proxy kubeconfig cert and key are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the kube-proxy kubeconfig certificate and keys
+                        printf "${FAILED}Exiting...Found mismtach in the kube-proxy kubeconfig certificate and keys"
                         exit 1
                 fi
             else
-                printf "${FAILED}kube-proxy kubeconfig file is missing.
+                printf "${FAILED}kube-proxy kubeconfig file is missing"
                 exit 1
     fi
 }
@@ -346,11 +325,11 @@ check_cert_kcmkubeconfig()
                     then
                         printf "${SUCCESS}kube-controller-manager kubeconfig cert and key are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the kube-controller-manager kubeconfig certificate and keys
+                        printf "${FAILED}Exiting...Found mismtach in the kube-controller-manager kubeconfig certificate and keys"
                         exit 1
                 fi
             else
-                printf "${FAILED}kube-controller-manager kubeconfig file is missing.
+                printf "${FAILED}kube-controller-manager kubeconfig file is missing"
                 exit 1
     fi
 }
@@ -374,11 +353,11 @@ check_cert_kskubeconfig()
                     then
                         printf "${SUCCESS}kube-scheduler kubeconfig cert and key are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the kube-scheduler kubeconfig certificate and keys
+                        printf "${FAILED}Exiting...Found mismtach in the kube-scheduler kubeconfig certificate and keys"
                         exit 1
                 fi
             else
-                printf "${FAILED}kube-scheduler kubeconfig file is missing
+                printf "${FAILED}kube-scheduler kubeconfig file is missing"
                 exit 1
     fi
 }
@@ -401,11 +380,11 @@ check_cert_adminkubeconfig()
                     then
                         printf "${SUCCESS}admin kubeconfig cert and key are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the admin kubeconfig certificate and keys
+                        printf "${FAILED}Exiting...Found mismtach in the admin kubeconfig certificate and keys"
                         exit 1
                 fi
             else
-                printf "${FAILED}admin kubeconfig file is missing.
+                printf "${FAILED}admin kubeconfig file is missing"
                 exit 1
     fi
 }
@@ -445,7 +424,7 @@ check_systemd_etcd()
                     then
                         printf "${SUCCESS}ETCD certificate, ca and key files are correct under systemd service\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the ETCD certificate, ca and keys. 
+                        printf "${FAILED}Exiting...Found mismtach in the ETCD certificate, ca and keys"
                         exit 1
                 fi
 
@@ -454,12 +433,12 @@ check_systemd_etcd()
                     then
                         printf "${SUCCESS}ETCD initial-advertise-peer-urls, listen-peer-urls, listen-client-urls, advertise-client-urls are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the ETCD initial-advertise-peer-urls / listen-peer-urls / listen-client-urls / advertise-client-urls. 
+                        printf "${FAILED}Exiting...Found mismtach in the ETCD initial-advertise-peer-urls / listen-peer-urls / listen-client-urls / advertise-client-urls"
                         exit 1
                 fi
 
             else
-                printf "${FAILED}etcd-server.crt / etcd-server.key is missing. 
+                printf "${FAILED}etcd-server.crt / etcd-server.key is missing"
                 exit 1
     fi
 }
@@ -498,11 +477,11 @@ check_systemd_api()
                     then
                         printf "${SUCCESS}kube-apiserver advertise-address/ client-ca-file/ etcd-cafile/ etcd-certfile/ etcd-keyfile/ kubelet-certificate-authority/ kubelet-client-certificate/ kubelet-client-key/ service-account-key-file/ tls-cert-file/ tls-private-key-file are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the kube-apiserver systemd file, check advertise-address/ client-ca-file/ etcd-cafile/ etcd-certfile/ etcd-keyfile/ kubelet-certificate-authority/ kubelet-client-certificate/ kubelet-client-key/ service-account-key-file/ tls-cert-file/ tls-private-key-file. 
+                        printf "${FAILED}Exiting...Found mismtach in the kube-apiserver systemd file, check advertise-address/ client-ca-file/ etcd-cafile/ etcd-certfile/ etcd-keyfile/ kubelet-certificate-authority/ kubelet-client-certificate/ kubelet-client-key/ service-account-key-file/ tls-cert-file/ tls-private-key-file"
                         exit 1
                 fi
             else
-                printf "${FAILED}kube-apiserver.crt / kube-apiserver.key is missing. 
+                printf "${FAILED}kube-apiserver.crt / kube-apiserver.key is missing"
                 exit 1
     fi
 }
@@ -533,11 +512,11 @@ check_systemd_kcm()
                     then
                         printf "${SUCCESS}kube-controller-manager cluster-signing-cert-file, cluster-signing-key-file, kubeconfig, root-ca-file, service-account-private-key-file  are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the kube-controller-manager cluster-signing-cert-file, cluster-signing-key-file, kubeconfig, root-ca-file, service-account-private-key-file 
+                        printf "${FAILED}Exiting...Found mismtach in the kube-controller-manager cluster-signing-cert-file, cluster-signing-key-file, kubeconfig, root-ca-file, service-account-private-key-file"
                         exit 1
                 fi
             else
-                printf "${FAILED}kube-controller-manager.crt / kube-controller-manager.key is missing. 
+                printf "${FAILED}kube-controller-manager.crt / kube-controller-manager.key is missing"
                 exit 1
     fi
 }
@@ -563,155 +542,20 @@ check_systemd_ks()
                     then
                         printf "${SUCCESS}kube-scheduler --kubeconfig, --address are correct\n"
                     else
-                        printf "${FAILED}Exiting...Found mismtach in the kube-scheduler --kubeconfig, --address
+                        printf "${FAILED}Exiting...Found mismtach in the kube-scheduler --kubeconfig, --address"
                         exit 1
                 fi
             else
-                printf "${FAILED}kube-scheduler.crt / kube-scheduler.key is missing
+                printf "${FAILED}kube-scheduler.crt / kube-scheduler.key is missing"
                 exit 1
     fi
 }
 
 # END OF Function - Master node #
 
-# Function - Worker-1 node #
-
-check_cert_worker_1()
-{
-    if [ -z $WORKER_1_CERT ] && [ -z $WORKER_1_KEY ]
-        then
-            printf "${FAILED}please specify cert and key location of worker-1 node\n"
-            exit 1
-        elif [ -f $WORKER_1_CERT ] && [ -f $WORKER_1_KEY ]
-            then
-                printf "${NC}worker-1 cert and key found, verifying the authenticity\n"
-                WORKER_1_CERT_SUBJECT=$(openssl x509 -in $WORKER_1_CERT -text | grep "Subject: CN"| tr -d " ")
-                WORKER_1_CERT_ISSUER=$(openssl x509 -in $WORKER_1_CERT -text | grep "Issuer: CN"| tr -d " ")
-                WORKER_1_CERT_MD5=$(openssl x509 -noout -modulus -in $WORKER_1_CERT | openssl md5| awk '{print $2}')
-                WORKER_1_KEY_MD5=$(openssl rsa -noout -modulus -in $WORKER_1_KEY | openssl md5| awk '{print $2}')
-                if [ $WORKER_1_CERT_SUBJECT == "Subject:CN=system:node:worker-1,O=system:nodes" ] && [ $WORKER_1_CERT_ISSUER == "Issuer:CN=KUBERNETES-CA" ] && [ $WORKER_1_CERT_MD5 == $WORKER_1_KEY_MD5 ]
-                    then
-                        printf "${SUCCESS}worker-1 cert and key are correct\n"
-                    else
-                        printf "${FAILED}Exiting...Found mismtach in the worker-1 certificate and keys
-                        exit 1
-                fi
-            else
-                printf "${FAILED}/var/lib/kubelet/worker-1.crt / /var/lib/kubelet/worker-1.key is missing
-                exit 1
-    fi
-}
-
-check_cert_worker_1_kubeconfig()
-{
-    if [ -z $WORKER_1_KUBECONFIG ]
-        then
-            printf "${FAILED}please specify worker-1 kubeconfig location\n"
-            exit 1
-        elif [ -f $WORKER_1_KUBECONFIG ]
-            then
-                printf "${NC}worker-1 kubeconfig file found, verifying the authenticity\n"
-                WORKER_1_KUBECONFIG_SUBJECT=$(cat $WORKER_1_KUBECONFIG | grep "client-certificate-data:" | awk '{print $2}' | base64 --decode | openssl x509 --text | grep "Subject: CN" | tr -d " ")
-                WORKER_1_KUBECONFIG_ISSUER=$(cat $WORKER_1_KUBECONFIG | grep "client-certificate-data:" | awk '{print $2}' | base64 --decode | openssl x509 --text | grep "Issuer: CN" | tr -d " ")
-                WORKER_1_KUBECONFIG_CERT_MD5=$(cat $WORKER_1_KUBECONFIG | grep "client-certificate-data:" | awk '{print $2}' | base64 --decode | openssl x509 -noout | openssl md5 | awk '{print $2}')
-                WORKER_1_KUBECONFIG_KEY_MD5=$(cat $WORKER_1_KUBECONFIG | grep "client-key-data" | awk '{print $2}' | base64 --decode | openssl rsa -noout | openssl md5 | awk '{print $2}')
-                WORKER_1_KUBECONFIG_SERVER=$(cat $WORKER_1_KUBECONFIG | grep "server:"| awk '{print $2}')
-                if [ $WORKER_1_KUBECONFIG_SUBJECT == "Subject:CN=system:node:worker-1,O=system:nodes" ] && [ $WORKER_1_KUBECONFIG_ISSUER == "Issuer:CN=KUBERNETES-CA" ] && \
-                   [ $WORKER_1_KUBECONFIG_CERT_MD5 == $WORKER_1_KUBECONFIG_KEY_MD5 ] && [ $WORKER_1_KUBECONFIG_SERVER == "https://192.168.5.30:6443" ]
-                    then
-                        printf "${SUCCESS}worker-1 kubeconfig cert and key are correct\n"
-                    else
-                        printf "${FAILED}Exiting...Found mismtach in the worker-1 kubeconfig certificate and keys
-                        exit 1
-                fi
-            else
-                printf "${FAILED}worker-1 /var/lib/kubelet/kubeconfig file is missing.
-                exit 1
-    fi
-}
-
-check_cert_worker_1_kubelet()
-{
-
-    CACERT=/var/lib/kubernetes/ca.crt
-    WORKER_1_TLSCERTFILE=/var/lib/kubelet/${HOSTNAME}.crt
-    WORKER_1_TLSPRIVATEKEY=/var/lib/kubelet/${HOSTNAME}.key
-    
-    if [ -z $WORKER_1_KUBELET ] && [ -z $SYSTEMD_WORKER_1_KUBELET ]
-        then
-            printf "${FAILED}please specify worker-1 kubelet config location\n"
-            exit 1
-        elif [ -f $WORKER_1_KUBELET ] && [ -f $SYSTEMD_WORKER_1_KUBELET ] && [ -f $WORKER_1_TLSCERTFILE ] && [ -f $WORKER_1_TLSPRIVATEKEY ]
-            then
-                printf "${NC}worker-1 kubelet config file, systemd services, tls cert and key found, verifying the authenticity\n"
-
-                WORKER_1_KUBELET_CA=$(cat $WORKER_1_KUBELET | grep "clientCAFile:" | awk '{print $2}' | tr -d " \"")
-                WORKER_1_KUBELET_DNS=$(cat $WORKER_1_KUBELET | grep "resolvConf:" | awk '{print $2}' | tr -d " \"")
-                WORKER_1_KUBELET_AUTH_MODE=$(cat $WORKER_1_KUBELET | grep "mode:" | awk '{print $2}' | tr -d " \"")
-
-                if [ $WORKER_1_KUBELET_CA == $CACERT ] && [ $WORKER_1_KUBELET_DNS == "/run/systemd/resolve/resolv.conf" ] && \
-                   [ $WORKER_1_KUBELET_AUTH_MODE == "Webhook" ]
-                    then
-                        printf "${SUCCESS}worker-1 kubelet config CA cert, resolvConf and Auth mode are correct\n"
-                    else
-                        printf "${FAILED}Exiting...Found mismtach in the worker-1 kubelet config CA cert, resolvConf and Auth mode
-                        exit 1
-                fi
-
-                KUBELETCONFIG=$(systemctl cat kubelet.service | grep "\--config" | awk '{print $1}'| cut -d "=" -f2)
-                TLSCERTFILE=$(systemctl cat kubelet.service | grep "\--tls-cert-file" | awk '{print $1}'| cut -d "=" -f2)
-                TLSPRIVATEKEY=$(systemctl cat kubelet.service | grep "\--tls-private-key-file" | awk '{print $1}'| cut -d "=" -f2)
-
-                if [ $KUBELETCONFIG == $WORKER_1_KUBELET ] && [ $TLSCERTFILE == $WORKER_1_TLSCERTFILE ] && \
-                   [ $TLSPRIVATEKEY == $WORKER_1_TLSPRIVATEKEY ]
-                    then
-                        printf "${SUCCESS}worker-1 kubelet systemd services are correct\n"
-                    else
-                        printf "${FAILED}Exiting...Found mismtach in the worker-1 kubelet systemd services
-                        exit 1
-                fi
-
-            else
-                printf "${FAILED}worker-1 kubelet config, systemd services, tls cert and key file is missing
-                exit 1
-    fi
-}
-
-check_cert_worker_1_kp()
-{
-
-    WORKER_1_KP_CONFIG_YAML=/var/lib/kube-proxy/kube-proxy-config.yaml
-    
-    if [ -z $WORKER_1_KP_KUBECONFIG ] && [ -z $SYSTEMD_WORKER_1_KP ]
-        then
-            printf "${FAILED}please specify worker-1 kube-proxy config and systemd service path\n"
-            exit 1
-        elif [ -f $WORKER_1_KP_KUBECONFIG ] && [ -f $SYSTEMD_WORKER_1_KP ] && [ -f $WORKER_1_KP_CONFIG_YAML ]
-            then
-                printf "${NC}worker-1 kube-proxy kubeconfig, systemd services and configuration files found, verifying the authenticity\n"
-
-                KP_CONFIG=$(cat $WORKER_1_KP_CONFIG_YAML | grep "kubeconfig:" | awk '{print $2}' | tr -d " \"")
-                KP_CONFIG_YAML=$(systemctl cat kube-proxy.service | grep "\--config" | awk '{print $1}'| cut -d "=" -f2)
-
-                if [ $KP_CONFIG == $WORKER_1_KP_KUBECONFIG ] && [ $KP_CONFIG_YAML == $WORKER_1_KP_CONFIG_YAML ]
-                    then
-                        printf "${SUCCESS}worker-1 kube-proxy kubeconfig and configuration files are correct\n"
-                    else
-                        printf "${FAILED}Exiting...Found mismtach in the worker-1 kube-proxy kubeconfig and configuration files
-                        exit 1
-                fi
-
-            else
-                printf "${FAILED}worker-1 kube-proxy kubeconfig and configuration files are missing
-                exit 1
-    fi
-}
-
-# END OF Function - Worker-1 node #
-
-echo -e "This script will validate the certificates in master as well as worker-1 nodes. Before proceeding, make sure you ssh into the respective node [ Master or Worker-1 ] for certificate validation\n"
-echo -e "1. Verify certification in Master Node\n"
-echo -e "2. Verify certification in Worker-1 Node\n"
+echo -e "This script will validate the certificates in master nodes. Before proceeding, make sure you ssh into the respective node [ Master-1 or Master-2 ] for certificate validation\n"
+echo -e "1. Verify certification in Master-1 Node"
+echo -e "2. Verify certification in Master-2 Node\n"
 echo -e "Please select either the option 1 or 2\n"
 read value
 
@@ -748,25 +592,45 @@ case $value in
     check_systemd_kcm
     check_systemd_ks
 
+    ;;
+
+  2)
+    echo -e "The selected option is $value, proceeding the certificate verification of Master-2 node"
+
+    ### MASTER NODES ###
+    master_hostname=$(hostname -s)
+    # CRT & KEY verification
+    check_cert_ca
+
+    if [ $master_hostname == "master-2" ]
+      then
+        check_cert_admin
+        check_cert_kcm
+        check_cert_kp
+        check_cert_ks
+        check_cert_adminkubeconfig
+        check_cert_kpkubeconfig
+    fi
+    check_cert_api
+    check_cert_sa
+    check_cert_etcd
+
+    # Kubeconfig verification
+    check_cert_kcmkubeconfig
+    check_cert_kskubeconfig
+
+    # Systemd verification
+    check_systemd_etcd
+    check_systemd_api
+    check_systemd_kcm
+    check_systemd_ks
+
     ### END OF MASTER NODES ###
 
     ;;
 
-  2)
-    echo -e "The selected option is $value, proceeding the certificate verification of Worker-1 node"
-
-    ### WORKER-1 NODE ###
-
-    check_cert_worker_1
-    check_cert_worker_1_kubeconfig
-    check_cert_worker_1_kubelet
-    check_cert_worker_1_kp
-
-    ### END OF WORKER-1 NODE ###
-    ;;
-
   *)
-    printf "${FAILED}Exiting.... Please select the valid option either 1 or 2\n"
+    printf "${FAILED}Exiting.... Please select the valid option either 1 for the Master-1 or 2 for the Master-2\n"
     exit 1
     ;;
 esac
